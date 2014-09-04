@@ -8,16 +8,33 @@ static int getSize(primitiveType type);
 
 arrayList * initialize(primitiveType type)
 {
-   return NULL;
+    arrayList * list = malloc(sizeof(arrayList));
+    list -> array = malloc(getSize(type));
+    list -> arraySize = 4;
+    list -> numElements = 0;
+    list -> type = type;
+    
+   return list;
 }
 
 int getSize(primitiveType type)
 {
+    if (type == charType)
+        return sizeof(char);
+    else if (type == intType)
+        return sizeof(int);
+    else if (type == shortType)
+        return sizeof(short);
+
    return 0;
 }
 
 void addElement(arrayList * arylstP, void * element)
 {
+   if((arylstP -> arraySize) == (aryLst -> numElements)){
+        arrayList * listTwo = malloc(sizeof(arrayList)) * (aryLst-> elementSize)*2;
+        listTwo -> arraySize = (arylist-> arraySize*2);
+        
    return;
 }
 
