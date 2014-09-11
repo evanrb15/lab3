@@ -6,17 +6,23 @@
 //static essentially makes it private to this file 
 static int getSize(primitiveType type);
 
+/*
+ * Initializes a new arrayList with size of 4, number of elements is 0
+ * and allocates space for the array.
+ */
 arrayList * initialize(primitiveType type)
 {
     arrayList * list = malloc(sizeof(arrayList));
-    list -> array = malloc(getSize(type));
+    list -> array = malloc(getSize(type)*4);
     list -> arraySize = 4;
     list -> numElements = 0;
     list -> type = type;
     
    return list;
 }
-
+/*
+ * Returns the size of the array in bytes
+ */
 int getSize(primitiveType type)
 {
     if (type == charType)
@@ -28,22 +34,52 @@ int getSize(primitiveType type)
 
    return 0;
 }
-
+/*
+ * Adds an element to the end of the array. If the arrayList is already full the
+ * size will be doubled before the element is added.
+ */
 void addElement(arrayList * arylstP, void * element)
 {
-   if((arylstP -> arraySize) == (aryLst -> numElements)){
-        arrayList * listTwo = malloc(sizeof(arrayList)) * (aryLst-> elementSize)*2;
-        listTwo -> arraySize = (arylist-> arraySize*2);
+   if((arylstP -> arraySize) == (arylstP-> numElements)){
+        void * listTwo = malloc((arylstP->arraySize) * (arylstP-> elementSize)*2);
+        int i;
+        for(i = 0; i < ((arylstP->numElements))*(arylstP->elementSize); i++){
+            ((char *) listTwo)[i] = ((char *)(arylstP->array))[i];
+        }
+        free(arylstP->array);
+        arylstP->array = listTwo;
+        arylstP->arraySize *= 2;
         
-   return;
+   }
+   int i;
+   for(i =0;i < (arylstP->elementSize); i++){
+       ((char *)(arylstP->array))[i + ((arylstP->numElements)*(arylstP->elementSize))] = ((char *)(element))[i];
+   }
+   (arylstP->numElements)++;
 }
 
+/*
+ * Removes the element at the index given in the arrayList.
+ */
 void removeElement(arrayList * arylstP, int index)
 {
-   return;
+   int i;
+   if(arylstP->type == charType){
+       for(i = index; i < (arylstP->numElements) -1;i++)
+           ((char *)(arylstP->array))[i]= ((char *)(arylstP->array))[i+1];
+   }
+   else if (arylstP->type == shortType){
+       for(i = index; i < (arylstP->numElements)-1;i++)
+           ((short *)(arylstP->array))[i] = ((short *)(arylstP->array))[i+1];
+   }
+   else {
+       for (i = index; i < (arylstP->numElements) - 1; i++)
+           ((int *)(arylstP->array))[i] = ((int *)(arylstP->array))[i+1];
+   }
 }
-      
-
+/*
+ * Prints the elements in the arrayList from start to end.
+ */   
 void printArray(arrayList * arylstP)
 {
    int i;
